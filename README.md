@@ -18,4 +18,4 @@ Chặn người dùng: Chọn người dùng cần chặn và nhấn vào nút "
 Thêm sản phẩm mới: Nhấn vào "Add New Product" và điền thông tin như tên sản phẩm, giá, mô tả và trạng thái.
 Cập nhật sản phẩm: Chọn sản phẩm cần sửa đổi và cập nhật các thông tin như giá, mô tả, hoặc trạng thái.
 Xóa sản phẩm: Chọn sản phẩm và nhấn nút "Delete".
-3.xác thực phân quyền bằng spring security
+3. Xác thực phân quyền bằng spring security
