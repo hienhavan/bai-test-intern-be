@@ -1,4 +1,3 @@
-Triển Khai Ứng Dụng trên Máy Chủ
 Yêu Cầu Hệ Thống
 Java: Phiên bản 11 trở lên
 Maven: Phiên bản 3.6 trở lên
@@ -6,7 +5,6 @@ Cơ sở dữ liệu: MySQL hoặc PostgreSQL
 Công cụ quản lý API: Postman (hoặc bất kỳ công cụ nào hỗ trợ HTTP requests)
 Cài Đặt Môi Trường
 Cài đặt Java và gradle
-
 Tải và cài đặt Java 11+.
 
 Truy Cập Ứng Dụng
