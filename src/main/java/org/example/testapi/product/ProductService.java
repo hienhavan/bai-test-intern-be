@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 @Service
@@ -24,7 +25,7 @@ public class ProductService {
             return (List<Product>) redisTemplate.opsForValue().get("products");
         } else {
             List<Product> products = productRepository.findAll();
-            redisTemplate.opsForValue().set("products", products);
+            redisTemplate.opsForValue().set("products", products,10, TimeUnit.SECONDS);
             return products;
         }
     }
