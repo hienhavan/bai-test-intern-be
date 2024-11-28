@@ -2,11 +2,11 @@ package org.example.testapi.product;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import java.io.Serializable;
 
 @Data
 @Builder
@@ -14,7 +14,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "product")
-public class Product {
+public class Product implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,12 +25,11 @@ public class Product {
     @Column(nullable = false)
     private String name;
 
-    @JsonProperty("password")
+    @JsonProperty("description")
     @Column(nullable = false, length = 255)
     private String description;
 
-    @JsonProperty("name")
-    @Column(nullable = false, length = 255)
+    @JsonProperty("price")
+    @Column(nullable = false)
     private Double price;
-
 }

@@ -1,6 +1,7 @@
 package org.example.testapi.product;
 
 
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,13 +12,21 @@ import java.util.stream.Collectors;
 public class ProductService {
 
     private final ProductRepository productRepository;
+    private final RedisTemplate<String, Object> redisTemplate;
 
-    public ProductService(ProductRepository productRepository) {
+    public ProductService(ProductRepository productRepository, RedisTemplate<String, Object> redisTemplate) {
         this.productRepository = productRepository;
+        this.redisTemplate = redisTemplate;
     }
 
-    public List<Product> getAllProducts() {
-        return productRepository.findAll();
+    public  List<Product> getAllProducts() {
+        if (redisTemplate.hasKey("products")) {
+            return (List<Product>) redisTemplate.opsForValue().get("products");
+        } else {
+            List<Product> products = productRepository.findAll();
+            redisTemplate.opsForValue().set("products", products);
+            return products;
+        }
     }
 
     public void addProduct(AddProductResponse request) {

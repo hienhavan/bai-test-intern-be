@@ -2,6 +2,8 @@ package org.example.testapi.product;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -11,9 +13,12 @@ import java.util.List;
 public class ProductController {
 
     private final ProductService productService;
+    private final KafkaTemplate<String, Object> kafkaTemplate;
 
-    public ProductController(ProductService productService) {
+
+    public ProductController(ProductService productService, KafkaTemplate<String, Object> kafkaTemplate) {
         this.productService = productService;
+        this.kafkaTemplate = kafkaTemplate;
     }
 
     @GetMapping("api/admin/v1/products")
@@ -28,6 +33,7 @@ public class ProductController {
     @PostMapping("api/admin/v1/product")
     public ResponseEntity<?> addProduct(@RequestBody AddProductResponse product) {
         productService.addProduct(product);
+        kafkaTemplate.send("ok", product);
         return ResponseEntity.status(HttpStatus.CREATED).body("thêm thành công" + product);
     }
 
@@ -61,5 +67,9 @@ public class ProductController {
             e.printStackTrace();
             return ResponseEntity.badRequest().body("Tìm kiếm bạn bè thất bại.");
         }
+    }
+    @KafkaListener(topics = "ok", groupId = "group-1")
+    public void listen(Object message) {
+        System.out.println("Received message: " + message);
     }
 }
